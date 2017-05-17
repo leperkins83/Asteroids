@@ -1,0 +1,39 @@
+What are three things you can do in order to speed up a website's load time? (20pts)
+
+1. minify, compress and cache your html, css and javascript
+	2. minimize the use of render blocking resources by using media queries on <link> to unblock rendering and inline css
+	3. minimize the use of parser blocking resources by defering javascript executior OR use an async attribute on the script
+	utilizing these methods will ultimately help accomplish three things that will speed load time: minimizing the amount of
+data(bytes) to send, reducing the number of critical resources, and shorten hte critical rending path(CRP) length
+
+2. Go to the Google PageSpeed insights page and analyze ncl.com Choose three of the shortcomings this website has and explain the
+specific tools and workflows we discussed in class which could help this website address these shortcomings.
+
+Firstly, Following js is causing render blocking. https://cdn-a2-ncl.optimizely.com/js/5414371492.js  In other words, this js file
+is keeping the rest of the html from rendering because JavaScript needs to be fetched first. Since html reads top to bottomn, I recommend
+moving all js files to the bottom of the html page so the rest can render before- this will reduce the number of round trips the browser
+must make which will reduce load time. Another thing you can do is use the async script attribute but only if the js file does not need
+to access the DOM or CSS in order to render. The async attribute tells the browser that it does not have to block DOM construction when
+it encounters the script tag and it also does not block CSSOM.Secondly, there are 4 images that are very large in file size, causing the
+speed to load slower. Compress each image by simply reducing the file size. you can use PageSpeed's Enable Compression Tool or if you want,
+you can use your own apps such as Paint.net, Picture Tools or Photoshop. You can also crop the image to reduce the file size. Thirdly, there
+are two redirects from the given url to the final landing page. It has to go from http://ncl.com/ to http://www.ncl.com/ in order to get to the
+secure url https://www.ncl.com/. Redirects trigger an additional HTTP request-response cycle and delay page rendering. since the urls of ncl.com
+are similar, include the https://www.ncl.com/ in your html and it will render without any redirects.
+
+3.What is the render tree?(20pts)
+
+It's the structure that captures the content and properties of the html and all relationships between the nodes once all tokens are consumed. This is
+not to be confused with the DOM tree. While the DOM tree is essentially the tree containing all of your HTML elements/nodes, the render tree is a
+culmination of the DOM and CSSOM trees and is what visibly shows up on your page.
+
+4. Explain the process of a how a website loads in terms of the internal data structures built and used by the browser (DOM, CSSOM, etc).(20pts)
+First you have the start and end tags <> with certain characters in side- these characters get converted into tokens, be it html, head, body etc.
+The browser emits a token when it reads these characters. Another process consumes the tokens and converts them into nodes. The conversion of 
+character(or html response)-token-nodes creates the DOM or Document Object Model. This DOM captures the content and properties of html and all
+the relationships between the nodes. the nodes contain all relevant information about the html element. The nodes are connected to the DOM tree
+based on a token hierarchy-html is read from top to bottom. Then a similar process takes place in creating the CSSOM or the CSS Object Model.
+It also takes in CSS characters and the parser converts tokens into nodes. Examples are body and paragraph elements. CSS is render blocking in
+that it will block all other rendering until it receives all CSS information. This is why it is important to either defer or async JavaScript,
+compress images and be careful of where and how other elements of your page are placed in the html hierarchy. the less render blocking your page has,
+the less round trips the browser has to take in order to fetch those elements and therefore, the faster your page will load.
